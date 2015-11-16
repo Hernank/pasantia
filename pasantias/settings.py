@@ -23,11 +23,11 @@ MI_DOMINIO="localhost:8000"
 SECRET_KEY = '$f^lo$q$76fs8$5^ebtn89!z$=y**a&&mbppis6ghs8w2d0dlh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-DEBUG404 = DEBUG
+DEBUG = False
+DEBUG404 = False
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','107.170.57.213']
 
 
 # Application definition
