@@ -145,8 +145,7 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_LOGIN_URL = "/url_de_logueo/"
 SOCIAL_AUTH_LOGIN_REDIRECT_URL='/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
-SOCIAL_AUTH_FACEBOOK_KEY='mifacekey'
-SOCIAL_AUTH_FACEBOOK_SECRET='mifacekey'
+
 
 
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
@@ -162,8 +161,6 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email',
 #'user_photos',
 ]
 
-DISQUS_API_KEY = 'midisqusapi'
-DISQUS_WEBSITE_SHORTNAME = 'blapp'
 
 SITE_ID = 1
 
@@ -172,3 +169,7 @@ from django.core.urlresolvers import reverse_lazy
 LOGIN_URL = reverse_lazy('milogin')
 LOGIN_REDIRECT_URL=reverse_lazy('home')
 
+SOCIAL_AUTH_FACEBOOK_KEY='mifacekey'
+SOCIAL_AUTH_FACEBOOK_SECRET='mifacekey'
+DISQUS_API_KEY = 'midisqusapi'
+DISQUS_WEBSITE_SHORTNAME = 'blapp'
