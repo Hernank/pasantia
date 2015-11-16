@@ -1,0 +1,84 @@
+.miclase{
+	font-size: 0.9em;
+	color: #95959B;
+	margin: 0;
+}
+.col-md-4.sinpadding {
+    padding: 0;
+}
+.blanco{
+	color: white;
+}
+.blanco:hover{
+	color: yellow;
+}
+.panel-footer.sinpadding{
+	padding: 0;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+   
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+.micontexto{
+    vertical-align: 3em;
+    font-family: "Open Sans" ,"Helvetica Neue",Arial,sans-serif;
+    line-height: 2em;
+
+    
+}
+/**full scren*/
+/**
+.full-screen {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    top: 0;
+    left: 0;
+    border-radius: 0;
+    padding: 0;
+}
+*/
+.imagen_libro
+{
+    width: 100%;
+    
+    height:100;
+
+}
+#destacada {
+  width: 100%;
+  height: 200px;
+  border-radius: 20%;
+}
+
+
+
+.miframe{
+    height: 700px;
+
+}
+.miimagens{
+    background: #0F0 url("http://resizer.ideal.es/resizer/resizer.php?imagen=http://www.ideal.es/noticias/201510/09/media/cortadas/89692618--660x371.jpg&nuevoalto=150&nuevoancho=235") no-repeat center; 
+}
+.sombreado{
+
+    background: rgba(5, 5, 5, 0.6);
+   
+
+}

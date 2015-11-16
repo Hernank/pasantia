@@ -1,0 +1,131 @@
+{% extends "baseadmin.html" %}
+{% load  static from staticfiles %}
+{% block estilos %}
+	<!-- ojo con esto  <link rel="stylesheet" href={% static "sbadmin/bower_components/datatables/media/css/jquery.dataTables.min.css" %} >-->
+	<!--<link rel="stylesheet" href={% static "sbadmin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" %} >-->
+	<link rel="stylesheet" href={% static "sbadmin/bower_components/datatables-responsive/css/dataTables.responsive.css" %}>
+{% endblock estilos %}
+{% block tituloventana %}
+	Entradas
+{% endblock tituloventana %}
+{% block content %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+		
+		<!--Fin de la fila de heading -->
+			
+		</div>
+		<!-- /.panel-heading -->
+		<div class="panel-body">
+			<div class="dataTable_wrapper">
+
+				<table class="table tabe-striped table-bordered table-hover" id="dataTables-example">
+					<thead>
+						<tr>
+							<th>Titulo</th>
+							<th>Fecha Publicacion</th>
+							<th>Autor</th>
+							<th>Categoria</th>
+							
+							<th>Eliminar</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						
+						{% for entrada in  entradas %}
+							<tr class="odd gradeA">
+								<td><a href="{% url 'verentrada' entrada.id_entrada %}" target="_blank">{{ entrada.titulo }}</a></td>
+								 <td> <cite>{{ entrada.fecha_publicacion }}</cite></td>     
+								 <td>{{ entrada.autor}}</td>
+								<td>{{ entrada.categoria.nombre }}</td>				
+								
+								<td >
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModaldelete" data-id="{{ entrada.id_entrada }}" id="btndelete">Eliminar</button>
+								
+								</td>
+							</tr>
+						{% endfor %}
+						
+						
+						
+						
+						
+					</tbody>
+				</table>
+			</div>
+			<!-- /.table-responsive -->
+			
+		</div>
+		<!-- /.panel-body -->
+	</div>
+	<!-- /.panel -->
+
+<!-- Modal -->
+<div id="myModaldelete" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminar categoria</h4>
+      </div>
+      <div class="modal-body">
+        <p>Esta seguro de eliminar esta entrada.</p>
+       
+      </div>
+      <div class="modal-footer">
+      	<a href="#" class="btn btn-default" id= "eliminarentrada">Eliminar </a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+{% endblock content %}
+{% block scripts %}
+	<script src="{% static "sbadmin/bower_components/datatables/media/js/jquery.dataTables.js" %}"></script>
+	<script src="{% static "sbadmin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" %}"></script>
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script>
+	$(document).ready(function() {
+	$('#dataTables-example').DataTable({
+
+		responsive: true,
+		"language": {
+				          "info": "Mostrando de _START_ hasta _END_ de _TOTAL_ elementos",
+				           "zeroRecords": "No se han encontrado entradas !!",
+				            "infoEmpty": "Entradas  no disponibles",
+				          "infoFiltered": " (filtrado de un total de _MAX_  elementos)",
+				          "lengthMenu": "Mostrar _MENU_ entradas",
+				          "search":"Buscar: ",
+				           "oPaginate": {
+        					"sNext": "Siguiente",
+        					 "sPrevious": "Anterior"
+      						}
+
+		}
+
+
+
+	      });});
+	</script>
+
+	<script type="text/javascript">
+		$(document).on("click", "#btndelete", function () {
+			var myBookId = $(this).data('id');
+
+			$(".modal-body #bookId").val( myBookId );
+			$("#eliminarentrada").attr("href"," /eliminarentrada/"+myBookId)
+
+     // As pointed out in comments, 
+     // it is superfluous to have to manually call the modal.
+     // $('#addBookDialog').modal('show');
+ });
+		
+
+	</script>
+{% endblock scripts %}

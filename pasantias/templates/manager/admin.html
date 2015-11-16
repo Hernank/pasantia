@@ -1,0 +1,202 @@
+{% extends "baseadmin.html" %}
+{% load  static from staticfiles %}
+{% block estilos %}
+	<link rel="stylesheet" href={% static "sbadmin/bower_components/datatables/media/css/jquery.dataTables.min.css" %} class="rel">
+{% endblock estilos %}
+{% block tituloventana %}
+    Principal
+{% endblock tituloventana %}
+
+{% block feed %}
+
+	 <!-- /.row -->
+            <div class="row">
+                <div class="col-xs-6 col-sm-4 col-lg-3 col-md-6 ">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                            	
+                                <div class="col-xs-3">
+                                    <i class="fa fa-edit fa-fw fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{ lenentradas }}</div>
+                                    <div>Entradas</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url  'entradas'%}">
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver Detalles</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-lg-3 col-md-6 ">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="glyphicon glyphicon-star-empty fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{ lennoticias }}</div>
+                                    <div>Noticias</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'noticias' %}">
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver Detalles</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-lg-3 col-md-6 ">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="glyphicon glyphicon-list fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{ lencategorias }}</div>
+                                    <div>Categorias</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'categorias' %}">
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver Detalles</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-4 col-lg-3 col-md-6 ">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="glyphicon glyphicon-user fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{ lenusuarios }}</div>
+                                    <div>Usuarios</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'usuarios' %}">
+                            <div class="panel-footer">
+                                <span class="pull-left">Ver Detalles</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+					<div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-edit fa-fw"></i> Ultimas entradas
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+
+                            	{% for entrada in entradas %}
+                            	<a href="#" class="list-group-item">
+                            	<i class="fa fa-edit fa-fw "></i>{{ entrada.titulo }}&nbsp; 
+                            		<span class="pull-right text-muted small"><em>{{ entrada.categoria }}</em>
+                            		</span>
+                            	</a>
+                            	{% endfor %}
+                                
+                               
+                            </div>
+                            <!-- /.list-group -->
+                            <a href="{% url 'noticias' %}" class="btn btn-default btn-block">Ver todas las entradas</a>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+				</div>
+
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+					<div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-star-empty fa-fw"></i> Ultimas noticias
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+
+                            	{% for noticia in noticias %}
+                            	<a href="#" class="list-group-item">
+                            	<i class="glyphicon glyphicon-star-empty"></i>{{ noticia.titulo }}&nbsp; 
+                            		<span class="pull-right text-muted small"><em>{{ noticia.tag }}</em>
+                            		</span>
+                            	</a>
+                            	{% endfor %}
+                                
+                               
+                            </div>
+                            <!-- /.list-group -->
+                            <a href="{% url 'noticias' %}" class="btn btn-default btn-block">Ver todas las noticias</a>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+
+
+				</div>
+				
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+					<div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-user fa-fw"></i> Ultimos Usuarios
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+
+                            	{% for usuario in usuarios %}
+                            	<a href="#" class="list-group-item">
+                            	<i class="glyphicon glyphicon-user"></i>{{ usuario.first_name }}&nbsp; {{ usuario.last_name }}
+                            		<span class="pull-right text-muted small"><em>{{ usuario.rol }}</em>
+                            		</span>
+                            	</a>
+                            	{% endfor %}
+                                
+                               
+                            </div>
+                            <!-- /.list-group -->
+                            <a href="{% url 'usuarios' %}" class="btn btn-default btn-block">Ver todas los usuarios</a>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+				</div>
+			</div>
+			
+
+
+{% endblock feed %}
+{% block content %}
+
+
+
+
+
+
+	
+{% endblock content %}
+{% block scripts %}
+<script src="{% static "sbadmin/bower_components/datatables/media/js/jquery.dataTables.js" %}"></script>
+	
+{% endblock scripts %}	

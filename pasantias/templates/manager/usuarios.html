@@ -1,0 +1,254 @@
+{% extends "baseadmin.html" %}
+{% load 	static from staticfiles %}
+{% block estilos %}
+	
+{% endblock estilos %}
+{% block tituloventana %}
+	Usuarios
+{% endblock tituloventana %}
+
+
+
+{% block content %}
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			
+			<div class="row">
+				<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+				<h3>Usuarios</h3>
+				</div>
+
+				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+				<a  data-toggle="modal" data-target="#agregaruser" class="btn btn-info pull-right">Ingresar nuevo usuario</a>
+					
+				</div>
+
+
+			</div>
+		</div>
+		<!-- /.panel-heading -->
+		<div class="panel-body">
+
+			<div class="dataTable_wrapper">
+				
+				
+				<table class="table table-striped table-bordered table-hover" id="dataTables-example">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Apellido</th>
+							<th>Email</th>
+							<th>Rol</th>
+							
+							<th>Username</th>		
+							<th>Estado</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+						{% for user in  users %}
+							<tr class="odd gradeA">
+								<td>{{ user.first_name }}</td>
+								<td>{{ user.last_name }}</td>
+								<td>{{ user.email }}</td>
+								
+								<td>
+								
+								<select name="yu"  class="form-control selectrol" required="required" iduser="{{ user.id }}">
+									{% for rol  in roles %}
+										<option value="{{ rol }}"  {% if user.rol == rol %}selected="selected"{% endif %}>  {{ rol }}</option>		
+									{% endfor %}
+																
+								</select> </td>
+
+								<td>{{ user.username }}</td>
+								
+								<td >
+								
+								{% if  user.is_active %}
+									<a href="{% url 'eliminarusuario' user.id %}" class="btn btn-success">Desactivar</a>
+									{% else %}
+									<a href="{% url 'eliminarusuario' user.id %}" class="btn btn-danger">Activar</a>
+								{% endif %}
+								
+								</td>
+							</tr>
+						{% endfor %}
+						
+						
+						
+						
+						
+					</tbody>
+				</table>
+
+				
+			
+			</div>
+			<!-- /.table-responsive -->
+			
+		</div>
+		<!-- /.panel-body -->
+	</div>
+	<!-- /.panel -->
+
+
+
+<div id="agregaruser" class="modal fade">
+   <div class="modal-dialog">   
+      <div class="modal-content"> 
+         <div class="modal-header">           
+            <h4>Ingresar nuevo usuario</h4>
+         </div>
+         <div class="modal-body"> 
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                 
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control user" id="username" placeholder="Username" name="username" type="text" autofocus id="inputEmail"  >
+                                 </div>  
+                                 <div class="form-group">
+                                 	<input type="text" name="" id="nombre" class="form-control" required="required" placeholder="Nombre" >
+                                 </div> 
+                                    
+							    <div class="form-group">
+                                 	  <input type="text" name="apellido" id="apellido" class="form-control" 	required="required"  title="" placeholder="Apellido" >
+                                
+                                 </div>
+                                 <div class="form-group">
+                                 	  <input type="text" name="correo" id="correo" class="form-control" 	required="required"  title="" placeholder="Correo electronico" >
+                                
+                                 </div>
+                                
+                                <div class="form-group">
+                                    <input class="form-control" id="password1" placeholder="Password" name="password" type="password" value="" >
+                                 </div> 
+                                 <div class="form-group">
+                                 	<input class="form-control" id= "password2" placeholder="Password otra vez !" name="password" type="password" value="" >
+                              
+                                 </div>
+                                 
+                                
+                                <!-- Change this to a button or input when using this as a form -->
+                                <button type="submit" class="btn btn-lg btn-success btn-block agregaruser" >Registrar</button>
+                                
+                            </fieldset>
+                       
+
+                </div>
+            </div>
+
+         </div>
+         <div class="modal-footer">
+         <div class="alert alert-success" id ="divalerta">
+         		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+         		<strong>	</strong>
+
+         		<p id="alerta"></p>
+         	</div>
+         </div>
+    </div>
+   </div>
+</div>
+
+
+{% endblock content %}
+
+{% block scripts %}
+	<script src="{% static "sbadmin/bower_components/datatables/media/js/jquery.dataTables.js" %}"></script>
+	<script src="{% static "sbadmin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" %}"></script>
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script>
+	$(document).ready(function() {
+	$('#dataTables-example').DataTable({responsive: true,
+		"language": {
+			          "info": "Mostrando de _START_ hasta _END_ de _TOTAL_ usuarios",
+			           "zeroRecords": "No se han encontrado usuarios !!",
+			            "infoEmpty": "Usuarios no disponibles",
+			          "infoFiltered": " (filtrado de un total de _MAX_  usuarios)",
+			          "lengthMenu": "Mostrar _MENU_ usuarios",
+
+			          "search":"Buscar: ",
+			          "oPaginate": {
+        					"sNext": "Siguiente",
+        					 "sPrevious": "Anterior"
+      						}
+
+			        }            });});
+	</script>
+	<script type="text/javascript">
+	
+	$('.selectrol').on('change', function (e) {
+    
+		var rol=this.value ;
+		var iduser=$(this).attr('iduser') ;
+		//alert( "holajhhj"+iduser+rol);
+		//console.log("Hola k  ase "+iduser);
+		$.ajax({
+			data:{'iduser':iduser,'rol':rol},
+			url:'/setrol/',
+			type:'get',
+			success: function(data){
+				console.log("OK");
+
+			}
+		}
+		);
+});
+
+	
+
+	</script>
+
+	<script type="text/javascript">
+	$('.agregaruser').on('click', function (e) {
+    	var username= $("#username").val();    	
+    	var nombre=$("#nombre").val();
+    	var apellido=$("#apellido").val();
+    	var correo=$("#correo").val();
+    	var password1=$("#password1").val();
+    	var password2=$("#password2").val();   	
+		var rol=this.value ;
+		var iduser=$(this).attr('iduser') ;
+		//alert( "holajhhj"+iduser+rol);
+		//console.log("Hola k  ase "+iduser);
+		$.ajax({
+			data:{'username':username,
+			'nombre':nombre,
+			'apellido':apellido,
+			'correo':correo,
+			
+			'password1':password1,
+			'password2':password2,
+
+			},
+			url:'/adduser/',
+			type:'get',
+			success: function(data){
+				$("#alerta").text(data['mensaje']);
+				if(data['error'])
+				{
+
+					$("#divalerta").removeClass( "alert-success" ).addClass( "alert-danger" );
+
+				}else
+				{
+					$("#divalerta").removeClass( "alert-success" ).removeClass('alert-danger').addClass( "alert-success" );
+
+				}
+				
+
+				
+			}
+		}
+		);
+});
+
+	</script>
+
+
+
+{% endblock scripts %}

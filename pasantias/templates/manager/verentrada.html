@@ -1,0 +1,171 @@
+
+{% extends "baseuser.html" %}
+{% load disqus_tags %}
+
+{% block opciones %}
+	{% for categoria in  ctxcategorias%}
+		<option value="{{ categoria.categoria.id_categoria }}">{{ categoria.categoria.nombre }}</option>
+		
+	{% endfor %}
+	
+{% endblock opciones %}
+
+{% block estilos %}
+
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>	
+	{% load static from staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static "bootstrap-modal-carousel/bootstrap-modal-carousel.min.css" %}">	
+{% endblock estilos %}
+<img src="{{ entrada.imagen_libro.url }}" alt="">
+
+{% block content %}
+
+		
+	<div class="fullscreen">
+		
+	
+	<div id="verpdf" class="modal fade modal-fullscreen force-fullscreen" >
+		<div class="modal-dialog">   
+			<div class="modal-content"> 
+				
+					
+
+				<div class="modal-body"> 
+					<div class="row">
+						
+						<iframe class="col-md-12" src="{% if entrada.libro %}{{ entrada.libro.url }}{% else %}
+				{{ entrada.librourl }}
+					
+				{% endif %}" style="width:100%; height:900px;" frameborder="0"></iframe>
+
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					
+					<a href="#" data-dismiss="modal" class="btn btn-success">Cerrar</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	
+
+	<section>
+		<container>
+
+			<div class="row">
+				<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+					<div class="row"><h1 align="center">{{ entrada.titulo }}<small> &nbsp; <i class="glyphicon glyphicon-list"></i>{{ entrada.categoria }}</small></h1></div>					
+					<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+						<img src="{{ entrada.imagen_libro.url }}" alt="" class="img-thumbnail imagen_libro">
+					</div>
+					<div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4"><p><i class="fa fa-user fa-fw"></i>{{ entrada.autor.first_name }}{{ entrada.autor.last_name }}</p>
+
+							
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+								 <p><i class="fa fa-clock-o fa-fw"></i>{{ entrada.fecha_publicacion|date:"d M Y"}}</p>
+							</div>
+							
+							{% if eliminar %}
+								<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+								<a href="#" data-toggle="modal" data-target="#myModaldelete" data-id="{{ entrada.id_entrada }}" id="btndelete">Eliminar</a>
+							</div>
+							
+							{% endif %}
+							
+							
+						</div>
+						<p><strong>RESUMEN</strong></p>
+						<p class="micontexto">
+						{{ entrada.resumen }}
+						...</p>
+						<a data-toggle="modal" href="#verpdf">Leer libro : {{ entrada.titulo }}</a>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						{% set_disqus_identifier entrada.id_entrada|stringformat:"i" %}						
+						{% disqus_show_comments %}			
+						</div>
+					</div>
+
+				
+
+				</div>
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Categorias</h3>
+					</div>
+					<div class="panel-body">
+						<ul class="list-group">
+							{% for cat in ctxcategorias %}
+								<li class="list-group-item">
+									<span class="badge">{{ cat.len }}</span>
+									<a href={% url 'vercategoria' cat.categoria.id_categoria %}>{{ cat.categoria }}</a>
+								</li>
+							{% endfor %}						
+
+						</ul>
+
+
+					</div>
+
+				</div>
+				</div>
+			</div>
+		<hr>
+			
+
+			
+		</container>
+	</section>
+
+	<!-- Modal -->
+<div id="myModaldelete" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminar categoria</h4>
+      </div>
+      <div class="modal-body">
+        <p>Esta seguro de eliminar esta entrada.</p>
+       
+      </div>
+      <div class="modal-footer">
+      	<a href="#" class="btn btn-default" id= "eliminarentrada">Eliminar </a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock content %}
+
+
+{% block scripts %}
+		<script type="text/javascript">
+		$(document).on("click", "#btndelete", function () {
+			var myBookId = $(this).data('id');
+
+			$(".modal-body #bookId").val( myBookId );
+			$("#eliminarentrada").attr("href"," /eliminarentrada/"+myBookId);
+			
+
+     // As pointed out in comments, 
+     // it is superfluous to have to manually call the modal.
+     // $('#addBookDialog').modal('show');
+ });
+		
+
+	</script>
+{% endblock scripts %}

@@ -1,0 +1,360 @@
+{% extends "baseadmin.html" %}
+
+{% block opciones %}
+  {% for categoria in  categorias%}
+    <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
+    
+  {% endfor %}
+  
+{% endblock opciones %}
+{% block estilos %}
+	{% load static from staticfiles %}
+	<link rel="stylesheet" type="text/css" href={% static "bootstrap-fileinput/css/fileinput.min.css" %}>
+<link rel="stylesheet" href={% static "sbadmin/bower_components/datatables-responsive/css/dataTables.responsive.css" %}>
+
+   
+{% endblock estilos %}
+
+{% block tituloventana %}
+  Noticias
+{% endblock tituloventana %}
+
+
+{% block content %}
+<div class="panel panel-default">
+		<div class="panel-heading">
+		<div class="row">
+		
+		
+		
+			<a class="btn btn-info pull-right"  data-toggle="modal" data-target="#crearnoticias"><strong>Crear una nueva noticia</strong></a>
+		
+			
+		
+		</div>
+		<!--Fin de la fila de heading -->
+			
+		</div>
+		<!-- /.panel-heading -->
+		<div class="panel-body">
+
+      <div class="dataTable_wrapper">
+
+        <table class="table tabe-striped table-bordered table-hover" id="dataTables-example">
+          <thead>
+            <tr>
+              <tr>
+              <th>Titulo</th> 
+              <th>Autor</th>
+              <th>Tag</th>
+              <th>Fecha Publicacion</th>    
+                
+              <th>Eliminar</th>     
+            </tr>
+              
+            </tr>
+          </thead>
+          <tbody>
+            
+            {% for noticia in  noticias %}
+              <tr >
+              <td>
+
+                <a  data-toggle="modal" href="#mostrarnoticia" class=" btnmostrarnoticia " idnoticia="{{ noticia.id_noticia }}" >{{ noticia.titulo }} </a></td>
+
+                <td>{{ noticia.autor }}</td>
+                 <td>{{ noticia.tag }}</td>   
+                <td> <cite title="Source Title">{{ noticia.fecha_publicacion }}</cite></td>     
+
+                
+                <td ><button type="button" class="btn btn-default" data-toggle="modal" data-target="#modaleliminar" data-id="{{ noticia.id_noticia }}" id="btneliminar">Eliminar</button></td>
+              </tr>
+            {% endfor %}
+            
+            
+            
+            
+            
+          </tbody>
+        </table>
+      </div>
+
+
+
+
+
+			<!-- /.table-responsive -->
+			
+		</div>
+		<!-- /.panel-body -->
+	</div>
+
+
+
+
+  <form action="/noticias/" method="POST" role="form" enctype="multipart/form-data">{% csrf_token %}
+    <div id="crearnoticias" class="modal fade">
+     <div class="modal-dialog">   
+      <div class="modal-content"> 
+       <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+
+        </button>
+        <h3>Crear una nueva noticia{{ hernan }}</h3>
+      </div>
+      <div class="modal-body"> 
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row">
+
+             <input name="titulonoticia" type="text" class="form-control" aria-label="..." placeholder="Titulo" style="font-weight: bold;">
+
+           </div>
+
+
+
+           <p></p>
+
+           <div class="row">
+
+            <div class="form-group">    
+             <div id="errorBlock4"></div>
+             <input id="file-4" name="imagennoticia" type="file" value="hola" >
+           </div>        
+
+
+
+         </div>
+
+
+         <p></p>
+         <textarea name="descripcionnoticia" id="input" class="form-control" rows="3" placeholder="Descripcion" required="required"></textarea>
+
+
+
+       </div>
+       <div class="modal-footer">
+        <button type="submit" class="btn btn-info">Guardar</button>
+        <a href="#" data-dismiss="modal" class="btn btn-default">Cerrar</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</form>
+
+<!-- Modal -->
+<div id="modaleliminar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminar noticias</h4>
+      </div>
+      <div class="modal-body">
+        <p>Esta seguro de elimnar esta noticia.</p>
+
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" id= "btneliminarmodal">Eliminar </a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+<div id="mostrarnoticia" class="modal fade">
+  <div class="modal-dialog">   
+    <div class="modal-content"> 
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+
+        </button>
+        <h3 id="titulo">{{ hernan }}</h3>
+      </div>
+      <div class="modal-body"> 
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+
+
+            <img id="imagennoticia" src=""
+            class="img-responsive">
+            <h1 id="titulo2">A title</h1>
+            <p id="datenoticia" class="text-left label label-warning"><i class="fa fa-clock-o fa-fw"></i></p>
+            <p></p>
+            <p id="contenido"></p>
+
+
+
+
+
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+
+        <a href="#" data-dismiss="modal" class="btn btn-default">Cerrar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock content %}
+
+
+{% block scripts %}
+
+
+
+
+	  <script src= {% static "bootstrap-fileinput/js/fileinput.min.js" %} type="text/javascript"></script>
+    <script src={% static "bootstrap-fileinput/js/fileinput_locale_es.js" %} type="text/javascript"></script>
+	
+
+  <script src="{% static "sbadmin/bower_components/datatables/media/js/jquery.dataTables.js" %}"></script>
+  <script src="{% static "sbadmin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js" %}"></script>
+
+<script>
+     $("#file-1").fileinput({
+        uploadUrl: '#', // you must set a valid URL here else you will get an error
+        allowedFileExtensions : ['jpg', 'png','gif'],
+        overwriteInitial: false,
+        maxFileSize: 1000,
+        maxFilesNum: 10,
+        browseClass: "btn btn-primary btn-lg",
+        showUpload:false,
+        showRemove:false,
+        //allowedFileTypes: ['image', 'video', 'flash'],
+        slugCallback: function(filename) {
+            return filename.replace('(', '_').replace(']', '_');
+        }
+    });
+     $("#file-3").fileinput({
+        language: 'es',
+        showUpload: false,
+        showCaption: false,
+        showRemove:false,
+        showPreview :true,
+        browseClass: "btn btn-info  ",
+        'elErrorContainer': '#errorBlock',
+        allowedFileExtensions : ['jpg', 'png','gif'],
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        showCancel:false,
+
+
+    });
+
+
+        $("#file-4").fileinput({
+        language: 'es',
+        browseLabel: "Imagen de noticia",
+        showUpload: false,
+        showCaption: false,
+        showRemove:false,
+        showPreview :true,
+        browseClass: "btn btn-info btn-block",
+        'elErrorContainer': '#errorBlock',
+        allowedFileExtensions : ['jpg', 'png','gif'],
+        previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+        showCancel:false,
+
+
+        });
+        $("#file-5").fileinput({
+            language: 'es',
+            showUpload: false,
+            showCaption: false,
+            showRemove:false,
+            showPreview :true,
+            browseClass: "btn btn-info  ",
+            'elErrorContainer': '#errorBlock',
+            allowedFileExtensions : ['pdf'],
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            showCancel:false,
+
+
+        });
+
+
+      $('#file-es').fileinput({
+        language: 'es',
+        uploadUrl: '#',
+        allowedFileExtensions : ['jpg', 'png','gif'],
+    });
+
+
+
+</script>
+<script>
+  $(document).ready(function() {
+  $('#dataTables-example').DataTable({responsive: true,
+    "language": {
+                "info": "Mostrando de _START_ hasta _END_ de _TOTAL_ noticias",
+                "infoFiltered": " (filtrado de un total de _MAX_  noticias)",
+                "lengthMenu": "Mostrar _MENU_ noticias",
+                "search":"Buscar: ",
+                "oPaginate": {
+                  "sNext": "Siguiente",
+                   "sPrevious": "Anterior"
+                  }
+                
+
+              }            });});
+</script>
+<script type="text/javascript">
+
+$(document).on("click", "#btneliminar", function () {
+      var idnoticia = $(this).data('id');
+      
+      //$(".modal-body #bookId").val( myBookId );
+      $("#btneliminarmodal").attr("href","/eliminarnoticia/"+idnoticia);
+  })
+</script>
+
+
+<script type="text/javascript">
+
+  $('.btnmostrarnoticia').on('click', function (e) {
+    
+    var rol=this.value ;
+    var idnoticia=$(this).attr('idnoticia') ;
+    
+    //alert( "holajhhj"+iduser+rol);
+    //console.log("Hola k  ase "+iduser);
+    $.ajax({
+      data:{'idnoticia':idnoticia},
+      url:'/getnoticia/',
+      type:'get',
+      success: function(data)
+      {
+        $("#titulo").text( data['titulo'] );
+        $("#titulo2").text( data['titulo'] );
+        $("#contenido").text( data['contenido'] );
+         $('#imagennoticia').attr('src',data['imagen']);
+         $('#datenoticia').text(data['fecha']);
+
+        
+
+      }
+    }
+    );
+});
+
+  
+
+  </script>
+
+{% endblock scripts %}

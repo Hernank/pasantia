@@ -1,0 +1,318 @@
+{% extends "baseuser.html" %}
+
+{% block estilos %}
+	{% load static from staticfiles %}
+	<link rel="stylesheet" href={% static "css/estilos.css" %}>
+{% endblock estilos %}
+
+{% block opciones %}
+	{% for categoria in  categorias%}
+		<option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
+		
+	{% endfor %}
+	
+{% endblock opciones %}
+
+{% block content %}
+
+
+<div class="col-xs-7 col-sm-0 col-md-7 col-lg-7 hidden-xs hidden-sm">
+	<div class="row">
+		<div class="col-md-12" draggable="true">
+			<h2 class="text-center">Lo mas reciente </h2>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-md-2">
+			<img src={{ lastentradas.0.imagen_libro.url }}
+			class="img-circle img-responsive" width="300" height="300">
+		</div>
+
+		<div class="col-md-4 sinpadding">
+			<h4 class="text-left"><a href= {% url 'verentrada' lastentradas.0.id_entrada %}>{{ lastentradas.0.titulo }}</a> </h4>
+			<div class="text-left"><i class="fa fa-user fa-fw"></i> {{ lastentradas.0.autor.first_name}}{{ lastentradas.0.autor.last_name}}</div>
+			
+			<p class="text-left label label-info"><i class="glyphicon glyphicon-list"></i>&nbsp; {{ lastentradas.0.categoria }}</p>
+				
+			<p class="text-left label label-warning"><i class="fa fa-clock-o fa-fw"></i>{{ lastentradas.0.fecha_publicacion|date:" d M Y" }}</p>
+
+		</div>
+		<div class="col-md-2">
+			<img src="{{ lastentradas.1.imagen_libro.url }}"
+			 class="img-circle img-responsive">
+		</div>
+		<div class="col-md-4 sinpadding">
+			<h4 class="text-left"><a href={% url 'verentrada' lastentradas.1.id_entrada %}>{{ lastentradas.1.titulo }} </a></h4>
+			<div class="text-left"><i class="fa fa-user fa-fw"></i>{{ lastentradas.1.autor.first_name}}{{ lastentradas.1.autor.last_name}}</div>
+			
+			<p class="text-left label label-info"><i class="glyphicon glyphicon-list"></i>&nbsp; {{ lastentradas.1.categoria }}</p>
+			
+			<p class="text-left label label-warning"><i class="fa fa-clock-o fa-fw"></i>{{ lastentradas.1.fecha_publicacion|date:" d M Y" }}</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2">
+			<img src={{ lastentradas.2.imagen_libro.url }}
+			class="img-circle img-responsive" width="100" height="200">
+		</div>
+		<div class="col-md-4 sinpadding">
+			<h4 class="text-left"><a href={% url 'verentrada' lastentradas.2.id_entrada %}>{{ lastentradas.2.titulo }}</a> </h4>
+			<div class="text-left"><i class="fa fa-user fa-fw"></i>{{ lastentradas.2.autor.first_name}}{{ lastentradas.2.autor.last_name}}</div>
+			
+			<p class="text-left label label-info"><i class="glyphicon glyphicon-list"></i>&nbsp; {{ lastentradas.2.categoria }}</p>
+			
+			<p class="text-left label label-warning" ><i class="fa fa-clock-o fa-fw"></i>{{ lastentradas.2.fecha_publicacion|date:" d M Y" }}</p>
+		</div>
+		<div class="col-md-2">
+			<img src="{{ lastentradas.3.imagen_libro.url }}" class="img-circle img-responsive">
+			
+		</div>
+		<div class="col-md-4 sinpadding">
+			
+			<h4 class="text-left"><a href={% url 'verentrada' lastentradas.3.id_entrada %}>{{ lastentradas.3.titulo }}</a> </h4>
+			<div class="text-left"><i class="fa fa-user fa-fw"></i>{{ lastentradas.3.autor.first_name}}{{ lastentradas.3.autor.last_name}}</div>
+			
+			<p class="text-left label label-info"><i class="glyphicon glyphicon-list"></i>&nbsp; {{ lastentradas.3.categoria }}</p>
+			<p class="text-left label label-warning"><i class="fa fa-clock-o fa-fw"></i>{{ lastentradas.3.fecha_publicacion|date:" d M Y" }}</p>
+		</div>
+	</div>
+
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+	<div class="row">
+		<div class="col-md-12" draggable="true">
+			<h2 class="text-center">Noticias </h2>
+		</div>
+	</div>
+	<div id="fullcarousel-example" data-interval="2000" class="carousel slide"	data-ride="carousel">
+	 <ol class="carousel-indicators">
+	 	{% for noticia in noticias %}
+	 		<li data-target="#fullcarousel-example" data-slide-to="{{ forloop.counter0 }}" ></li>
+	 	{% endfor %}
+        
+      <!-- <li data-target="#fullcarousel-example" data-slide-to="1" class="active"></li>-->  
+     
+    </ol>
+	<div class="carousel-inner">
+		{% for noticia in noticias %}
+			<div class="item {% ifequal  forloop.counter0 0 %}
+				active 
+				
+			{% endifequal  %}">
+				<img src="{{ noticia.imagen_noticia.url }}">
+				<div class="carousel-caption sombreado">
+					<h2 class=""><a  data-toggle="modal" href="#mostrarnoticia" class="blanco btnmostrarnoticia " idnoticia="{{ noticia.id_noticia }}" >{{ noticia.titulo }} </a></h2>
+					<p></p>
+				</div>
+			</div>
+
+			  
+		{% endfor %}
+		<!--
+		<div class="item active">
+			<img src="http://lorempixel.com/600/450/" width="100%" height="600px">
+			<div class="carousel-caption">
+				<h2><a href="" class="blanco">Titulo de noticias</a></h2>
+				<p>Breve Descripcioc</p>
+			</div>
+		</div>--> 
+	</div>
+	<a class="left carousel-control" href="#fullcarousel-example" data-slide="prev"><i class="icon-prev fa fa-angle-left"></i></a>
+	<a class="right carousel-control" href="#fullcarousel-example" data-slide="next"><i class="icon-next fa fa-angle-right"></i></a>
+	</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="row">
+	<div class="col-md-12">
+		<hr>
+	</div>
+</div>
+
+
+<div>
+	<p><strong>
+		<hj></hj>
+	</strong></p>
+</div>
+
+
+
+{% comment %}
+	Inicio seccion abajo
+{% endcomment %}
+<div class="section">
+	<div class="container">
+		<div class="row">
+			{% comment %}Seccion1{% endcomment %}			
+					
+				<div class="col-md-8">
+			
+				{% for nuevacateg ,entradas in  listasort.items %}
+				
+					<div class="row">
+						<div class="panel panel-default">
+							<div class="panel-heading"><a href="{% url 'vercategoria' nuevacateg.id_categoria %}"><strong>{{ nuevacateg }}</strong></a> </div>
+							<div class="panel-body">
+							   <div class="row">
+							   {% for entra in entradas %}
+							   	
+							   
+							   		<div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" align="center">
+							   			<img src="{{ entra.imagen_libro.url }}"
+										class="img-responsive" id="destacada">
+										<h4><a href="{% url 'verentrada' entra.id_entrada %}">{{ entra.titulo }}</a></h4>
+										<div class="miclase"><i class="fa fa-user fa-fw"></i>{{ entra.autor }} </div>
+											
+										<p class="miclase"> <i class="fa fa-clock-o fa-fw"></i>{{ entra.fecha_publicacion|date:" d M Y" }}</p>	
+										
+							   		</div>
+							   		<div class="col-xs-12  hidden-sm hidden-md hidden-lg ">
+							   			<hr>
+							   		</div>
+									
+								{% endfor %}
+								</div>
+
+							</div>
+					
+						</div>
+					</div>
+					{% endfor %}
+					{% comment %}==========={% endcomment %}
+
+					
+
+					{% comment %}
+						
+					{% endcomment %}
+
+				</div>
+				{% comment %}fin de col md 8{% endcomment %}
+			
+			{% comment %}seccion2{% endcomment %}
+
+			<div class="col-md-4">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Categorias</h3>
+					</div>
+					<div class="panel-body">
+						<ul class="list-group">
+							{% for cat in ctxcategorias %}
+								<li class="list-group-item">
+									<span class="badge">{{ cat.len }}</span>
+									<a href={% url 'vercategoria' cat.categoria.id_categoria %}>{{ cat.categoria }}</a>
+								</li>
+							{% endfor %}						
+
+						</ul>
+
+
+					</div>
+
+				</div>
+
+			</div>
+	
+
+		</div>
+	</div>
+</div>
+{% comment %}
+	fin de la seccion abajo
+{% endcomment %}
+
+	
+
+
+
+    <div id="mostrarnoticia" class="modal fade">
+    	<div class="modal-dialog">   
+    		<div class="modal-content"> 
+    			<div class="modal-header">
+    				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+    					
+    				</button>
+    				<h3 id="titulo">{{ hernan }}</h3>
+    			</div>
+    			<div class="modal-body"> 
+
+    				<div class="panel panel-default">
+    					<div class="panel-body">
+
+
+    							<img id="imagennoticia" src=""
+    							class="img-responsive">
+    							<h1 id="titulo2">A title</h1>
+    							<p id="datenoticia" class="text-left label label-warning"><i class="fa fa-clock-o fa-fw"></i></p>
+    							<p></p>
+    							<p id="contenido"></p>
+    								
+    					
+    							
+
+
+    					</div>
+    				</div>
+
+    			</div>
+    			<div class="modal-footer">
+    				
+    				<a href="#" data-dismiss="modal" class="btn btn-default">Cerrar</a>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+	<script type="text/javascript">
+
+	$('.btnmostrarnoticia').on('click', function (e) {
+		
+		var rol=this.value ;
+		var idnoticia=$(this).attr('idnoticia') ;
+		
+		//alert( "holajhhj"+iduser+rol);
+		//console.log("Hola k  ase "+iduser);
+		$.ajax({
+			data:{'idnoticia':idnoticia},
+			url:'/getnoticia/',
+			type:'get',
+			success: function(data)
+			{
+				$("#titulo").text( data['titulo'] );
+				$("#titulo2").text( data['titulo'] );
+				$("#contenido").text( data['contenido'] );
+				 $('#imagennoticia').attr('src',data['imagen']);
+				 $('#datenoticia').text(data['fecha']);
+
+				
+
+			}
+		}
+		);
+});
+
+	
+
+	</script>
+{% endblock scripts %}
